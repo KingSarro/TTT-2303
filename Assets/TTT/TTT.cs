@@ -37,7 +37,7 @@ public class TTT : MonoBehaviour
 
     public void MakeOptimalMove()
     {
-
+        
     }
 
     public void ChooseSpace(int column, int row)
