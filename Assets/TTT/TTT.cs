@@ -40,126 +40,113 @@ public class TTT : MonoBehaviour{
         }
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+//-------------------My Code--------------------------------
+
+
+
     public void MakeOptimalMove(){
         // can't choose space if game is over
         if (GetWinner() != PlayerOption.NONE)
             return;
 
-        //If the center option is free
-        if (cells[1,1].current == PlayerOption.NONE){
-            cells[1,1].current = currentPlayer;
-            turn++;
-            board.UpdateCellVisual(1, 1, currentPlayer);
-            lastPlay[0] = 1; lastPlay[1] = 1;
-
-            //-----------GameOver----------------
-            // if there's no winner, keep playing, otherwise end the game
-            if(GetWinner() == PlayerOption.NONE){
-                EndTurn();
-            }
-            else{
-                Debug.Log("GAME OVER!");
-            }
-        }
         
+        //-----------GameOver----------------
+        // if there's no winner, keep playing, otherwise end the game
+        if(GetWinner() == PlayerOption.NONE){
+            EndTurn();
+        }
         else{
-            //If all of the corner pieces are free
-            if(cells[0,0].current == PlayerOption.NONE && cells[0,2].current == PlayerOption.NONE && cells[2,0].current == PlayerOption.NONE && cells[2,2].current == PlayerOption.NONE){
-            ////if the current player has the middle
-                if (cells[1,1].current == currentPlayer){
-                    //pick a corner
-                    int ran = Random.Range(1,5);
-                    switch(ran){
-                        case 1:
-                            cells[0,0].current = currentPlayer;
-                            board.UpdateCellVisual(0, 0, currentPlayer);
-                            lastPlay[0] = 0; lastPlay[1] = 0;
-                            break;
-                        case 2:
-                            cells[0,2].current = currentPlayer;
-                            board.UpdateCellVisual(0, 2, currentPlayer);
-                            lastPlay[0] = 0; lastPlay[1] = 2;
-                            break;
-                        case 3:
-                            cells[2,0].current = currentPlayer;
-                            board.UpdateCellVisual(2, 0, currentPlayer);
-                            lastPlay[0] = 2; lastPlay[1] = 0;
-                            break;
-                        case 4:
-                            cells[2,2].current = currentPlayer;
-                            board.UpdateCellVisual(2, 2, currentPlayer);
-                            lastPlay[0] = 2; lastPlay[1] = 2;
-                            break;
-                    }
-
-                    //-----------GameOver----------------
-                    // if there's no winner, keep playing, otherwise end the game
-                    if(GetWinner() == PlayerOption.NONE){
-                        EndTurn();
-                    }
-                    else
-                    {
-                        Debug.Log("GAME OVER!");
-            }
-                }
-            }
-            //Get a random Cell
-            else{
-                    int c = -1,r = -1;
-                    //Gets a random cell
-                    do{ 
-                        int ran = Random.Range(1,10);
-                        Debug.Log("Random Num: " + ran);
-                        switch(ran){
-                            case 1:
-                                c = 0; r = 0;
-                                break;
-                            case 2:
-                                c = 0; r = 1;
-                                break;
-                            case 3:
-                                c = 0; r = 2;
-                                break;
-                            case 4:
-                                c = 1; r = 0;
-                                break;
-                            case 5:
-                                c = 1; r = 1;
-                                break;
-                            case 6:
-                                c = 1; r = 2;
-                                break;
-                            case 7:
-                                c = 2; r = 0;
-                                break;
-                            case 8:
-                                c = 2; r = 1;
-                                break;
-                            case 9:
-                                c = 2; r = 2;
-                                break;
-                        }
-                    }
-                    while(cells[c,r].current != PlayerOption.NONE);
-                    cells[c,r].current = currentPlayer;
-                    //turn++;
-                    board.UpdateCellVisual(c, r, currentPlayer);
-                    //lastPlay[0] = c; lastPlay[1] = r;
-                }
-
-            //-----------GameOver----------------
-            // if there's no winner, keep playing, otherwise end the game
-            if(GetWinner() == PlayerOption.NONE){
-                EndTurn();
-            }
-            else{
-                Debug.Log("GAME OVER!");
-            }
+            Debug.Log("GAME OVER!");
         }
-        
     }
 
 
+
+
+
+//Gets A Random 
+private void ChooseRandomCell(){
+    int c = -1,r = -1;
+    //Gets a random cell
+    do{ 
+        int ran = Random.Range(1,10);
+        Debug.Log("Random Num: " + ran);
+        switch(ran){
+            case 1:
+                c = 0; r = 0;
+                break;
+            case 2:
+                c = 0; r = 1;
+                break;
+            case 3:
+                c = 0; r = 2;
+                break;
+            case 4:
+                c = 1; r = 0;
+                break;
+            case 5:
+                c = 1; r = 1;
+                break;
+            case 6:
+                c = 1; r = 2;
+                break;
+            case 7:
+                c = 2; r = 0;
+                break;
+            case 8:
+                c = 2; r = 1;
+                break;
+            case 9:
+                c = 2; r = 2;
+                break;
+        }
+    }
+    while(cells[c,r].current != PlayerOption.NONE); //Check for while loop
+
+    //Sets the current cell and updates the visuals
+    cells[c,r].current = currentPlayer;
+    board.UpdateCellVisual(c, r, currentPlayer);
+    //adds to the turn and updates the last played variable
+    turn++;
+    lastPlay[0] = c; lastPlay[1] = r;
+}
+
+//Checks if a winning move is available
+//TODO: probably will need to make this return a value (most likely a bool)
+private void CheckForWinningMoves(){
+    //Winning moves for X
+        //Take Win if its Xs turn
+        //Blocking if its Ys turn
+    //Winning moves for Y
+        //Take Win if its Ys turn
+        //Blocking if its Xs turn
+}
+
+
+
+
+
+
+
+
+
+
+
+
+//-------------------Teacher Code--------------------------------
 
     public void ChooseSpace(int column, int row)
     {
