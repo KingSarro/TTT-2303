@@ -679,31 +679,54 @@ private void GetRandomAdjacentCell(int cellColumn, int cellRow){
     ChooseSpace(lastPlay[0],lastPlay[1]);
 }
 //---Gets a random Opposite Side Cell---Calls the Choose Space Function---//
-private void GetRandomOppositeSideCell(int cellColumn, int cellRow){
+private void GetOppositeSideCell(int cellColumn, int cellRow){
+    Debug.Log("---Entering the Choose Opposite Side Cell function---");
     int c = -1,r = -1;
-    //Gets a random cell
-    Debug.Log("---Entering the Choose Random Opposite Side Cell function---");
-    do{ 
-        int ran = Random.Range(1,5);
-        //1:[0,1]-->[2,1]  2:[1,0]-->[1,2]  3:[1,2]-->[1,0]  4:[2,1]-->[0,1]
-        Debug.Log("Random Num: " + ran);
-        switch(ran){
-            case 1:
-                c = 2; r = 1;
-                break;
-            case 2:
-                c = 1; r = 2;
-                break;
-            case 3:
-                c = 1; r = 0;
-                break;
-            case 4:
-                c = 0; r = 1;
-                break;
+
+    //1:[0,1]-->[2,1]  2:[1,0]-->[1,2]  3:[1,2]-->[1,0]  4:[2,1]-->[0,1]
+    if(cellColumn == 0){
+        if(cellRow == 1){
+            c = 2; r = 1;
+        }
+        else{
+            Debug.Log("Problem in Get Random Opposite Side Cell!!! Row is not 1 !!!");
+            Debug.Log("Returning a random space!!!");
+            GetRandomCell();
+            return;
         }
     }
-    while(cells[c,r].current != PlayerOption.NONE); //Check for while loop
-
+    else if(cellColumn == 1){
+        if(cellRow == 0){
+            c = 1; r = 2;
+        }
+        else if(cellRow == 2){
+            c = 1; r = 0;
+        }
+        else{
+            Debug.Log("Problem in Get Random Opposite Side Cell!!! Row is not 0 or 2 !!!");
+            Debug.Log("Returning a random space!!!");
+            GetRandomCell();
+            return;
+        }
+    }
+    else if (cellColumn == 2){
+        if(cellRow == 1){
+            c = 0; r = 1;
+        }
+        else{
+            Debug.Log("Problem in Get Random Opposite Side Cell!!! Row is not 1 !!!");
+            Debug.Log("Returning a random space!!!");
+            GetRandomCell();
+            return;
+        }
+    }
+    else{
+        Debug.Log("Problem in Get Random Opposite Side Cell!!! Column is out of range from 0-2!!!");
+        Debug.Log("Returning a random space!!!");
+        GetRandomCell();
+        return;
+    }
+    
     //Sets the current cell and updates the visuals
     lastPlay[0] = c; lastPlay[1] = r;
     ChooseSpace(lastPlay[0], lastPlay[1]);
