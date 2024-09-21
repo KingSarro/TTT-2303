@@ -174,6 +174,7 @@ private void GetRandomCornerCell(){
     Debug.Log("---Entering the Choose Random Corner Cell function---");
     do{ 
         int ran = Random.Range(1,5);
+        //1:[0,0] 2:[0,2] 3:[2,0] 4:[2,2]
         Debug.Log("Random Num: " + ran);
         switch(ran){
             case 1:
@@ -203,6 +204,7 @@ private void GetRandomSideCell(){
     Debug.Log("---Entering the Choose Random Side Cell function---");
     do{ 
         int ran = Random.Range(1,5);
+        //1:[0,1] 2:[1,0] 3:[1,2] 4:[2,1]
         Debug.Log("Random Num: " + ran);
         switch(ran){
             case 1:
@@ -225,10 +227,11 @@ private void GetRandomSideCell(){
     lastPlay[0] = c; lastPlay[1] = r;
     ChooseSpace(lastPlay[0], lastPlay[1]);
 }
-private void GetRandomAdjacentCell(int cellColum, int cellRow){
+//---Gets a random Adjacent Cell---Calls the Choose Space Function---//
+private void GetRandomAdjacentCell(int cellColumn, int cellRow){
     Debug.Log("-----Entering GetRandomAdjacentCell");
     //first colum
-    if(cellColum == 0){
+    if(cellColumn == 0){
         //first row
         if(cellRow == 0){
             //---In Cell [0,0]---//
@@ -386,7 +389,7 @@ private void GetRandomAdjacentCell(int cellColum, int cellRow){
     
     }
     //second colum
-    else if(cellColum == 1){
+    else if(cellColumn == 1){
         //first row
         if(cellRow == 0){
             //---In Cell [1,0]---//
@@ -507,7 +510,7 @@ private void GetRandomAdjacentCell(int cellColum, int cellRow){
     
     }
     //third colum
-    else if(cellColum == 2){
+    else if(cellColumn == 2){
         if(cellRow == 0){
             //---In Cell [2,0]---//
             int ran = Random.Range(1,3);
@@ -675,7 +678,38 @@ private void GetRandomAdjacentCell(int cellColum, int cellRow){
 
     ChooseSpace(lastPlay[0],lastPlay[1]);
 }
+//---Gets a random Opposite Side Cell---Calls the Choose Space Function---//
+private void GetRandomOppositeSideCell(int cellColumn, int cellRow){
+    int c = -1,r = -1;
+    //Gets a random cell
+    Debug.Log("---Entering the Choose Random Opposite Side Cell function---");
+    do{ 
+        int ran = Random.Range(1,5);
+        //1:[0,1]-->[2,1]  2:[1,0]-->[1,2]  3:[1,2]-->[1,0]  4:[2,1]-->[0,1]
+        Debug.Log("Random Num: " + ran);
+        switch(ran){
+            case 1:
+                c = 2; r = 1;
+                break;
+            case 2:
+                c = 1; r = 2;
+                break;
+            case 3:
+                c = 1; r = 0;
+                break;
+            case 4:
+                c = 0; r = 1;
+                break;
+        }
+    }
+    while(cells[c,r].current != PlayerOption.NONE); //Check for while loop
 
+    //Sets the current cell and updates the visuals
+    lastPlay[0] = c; lastPlay[1] = r;
+    ChooseSpace(lastPlay[0], lastPlay[1]);
+}
+//---Gets a random Opposite Corner Cell---Calls the Choose Space Function---//
+private void GetRandomOppositeCornerCell(int cellColumn, int cellRow, bool getDiagonal){}
 
 
 //Checks if a winning move is available
