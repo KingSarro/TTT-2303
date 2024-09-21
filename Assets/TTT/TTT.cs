@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
 public enum PlayerOption
@@ -732,7 +733,163 @@ private void GetOppositeSideCell(int cellColumn, int cellRow){
     ChooseSpace(lastPlay[0], lastPlay[1]);
 }
 //---Gets a random Opposite Corner Cell---Calls the Choose Space Function---//
-private void GetRandomOppositeCornerCell(int cellColumn, int cellRow, bool getDiagonal){}
+private void GetRandomOppositeCornerCell(int cellColumn, int cellRow, bool getDiagonal){
+    Debug.Log("---Entering the Choose Opposite Corner Cell function---");
+    int c = -1,r = -1;
+
+    //1:[0,0] 2:[0,2] 3:[2,0] 4:[2,2]
+
+    
+
+    //Random horizontal or vertical side side
+    if(getDiagonal == false){
+        // 1:[0,2][2,0]  2:[0,0][2,2]  3:[0,0][2,2]  4:[0,2][2,0]
+        if(cellColumn == 0){
+            if(cellRow == 0){
+                if(ran == 1){
+                    c = 0; r = 2;
+                }
+                else if(ran == 2){
+                    c = 2; r = 0;
+                }
+                //Fail safe
+                else{
+                    Debug.Log("Problem in Get Random Opposite Corner Cell!!! Random number is not 1 or 2!!!");
+                    Debug.Log("Returning a random space!!!");
+                    GetRandomCell();
+                    return;
+                }
+            }
+            else if(cellRow == 2){
+                if(ran == 1){
+                    c = 0; r = 0;
+                }
+                else if(ran == 2){
+                    c = 2; r = 2;
+                }
+                //Fail safe
+                else{
+                    Debug.Log("Problem in Get Random Opposite Corner Cell!!! Random number is not 1 or 2!!!");
+                    Debug.Log("Returning a random space!!!");
+                    GetRandomCell();
+                    return;
+                }
+            }
+            //fail safe
+            else{
+                Debug.Log("Problem in Get Random Opposite Corner Cell!!! Row is not 0 or 2!!!");
+                Debug.Log("Returning a random space!!!");
+                GetRandomCell();
+                return;
+            }
+        
+        }
+        else if (cellColumn == 2){
+            if(cellRow == 0){
+                if(ran == 1){
+                    c = 0; r = 0;
+                }
+                else if(ran == 2){
+                    c = 2; r = 2;
+                }
+                //Fail safe
+                else{
+                    Debug.Log("Problem in Get Random Opposite Corner Cell!!! Random number is not 1 or 2!!!");
+                    Debug.Log("Returning a random space!!!");
+                    GetRandomCell();
+                    return;
+                }
+            }
+            else if(cellRow == 2){
+                if(ran == 1){
+                    c = 0; r = 2;
+                }
+                else if(ran == 2){
+                    c = 2; r = 0;
+                }
+                //Fail safe
+                else{
+                    Debug.Log("Problem in Get Random Opposite Corner Cell!!! Random number is not 1 or 2!!!");
+                    Debug.Log("Returning a random space!!!");
+                    GetRandomCell();
+                    return;
+                }
+            }
+            //fail safe
+            else{
+                Debug.Log("Problem in Get Random Opposite Corner Cell!!! Row is not 0 or 2!!!");
+                Debug.Log("Returning a random space!!!");
+                GetRandomCell();
+                return;
+            }
+        
+        }
+        
+        //fail safe
+        else{
+            Debug.Log("Problem in Get Random Opposite Corner Cell!!! Column is not 0 or 2!!!");
+            Debug.Log("Is NOT trying to get Diagonal!!!");
+            Debug.Log("Returning a random space!!!");
+            GetRandomCell();
+            return;
+        }
+    
+    }
+    //Gets the opposite diagonal
+    else{
+        // 1:[2,2]  2:[2,0]  3:[0,2]  4:[0,0]
+        if(cellColumn == 0){
+            //[0,0] --> [2,2]
+            if(cellRow == 0){
+                c = 2; r = 2;
+            }
+            //[0,0] --> [2,2]
+            else if(cellRow == 2){
+                c = 0; r = 0;
+            }
+            
+            //fail safe
+            else{
+                Debug.Log("Problem in Get Random Opposite Corner Cell!!! Row is not 0 or 2!!!");
+                Debug.Log("Returning a random space!!!");
+                GetRandomCell();
+                return;
+            }
+        
+        }
+        else if(cellColumn == 2){
+            //[2,0] --> [0,2]
+            if(cellRow == 0){
+                c = 0; r = 2;
+            }
+            //[2,2] --> [0,0]
+            else if(cellRow == 2){
+                c = 0; r = 0;
+            }
+            
+            //fail safe
+            else{
+                Debug.Log("Problem in Get Random Opposite Corner Cell!!! Row is not 0 or 2!!!");
+                Debug.Log("Returning a random space!!!");
+                GetRandomCell();
+                return;
+            }
+        
+        }
+        //fail safe
+        else{
+            Debug.Log("Problem in Get Random Opposite Corner Cell!!! Column is not 0 or 2!!!");
+            Debug.Log("Is trying to get Diagonal!!!");
+            Debug.Log("Returning a random space!!!");
+            GetRandomCell();
+            return;
+        }
+    }
+    
+    //Sets the current cell and updates the visuals
+    lastPlay[0] = c; lastPlay[1] = r;
+    ChooseSpace(lastPlay[0], lastPlay[1]);
+}
 
 
 //Checks if a winning move is available
