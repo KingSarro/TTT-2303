@@ -12,7 +12,7 @@ public enum PlayerOption
 
 public class TTT : MonoBehaviour{
 
-    int turn = 0;
+    int turn = 1;
     int[] lastPlay = {-1,-1};// colum/row
 
 
@@ -57,21 +57,68 @@ public class TTT : MonoBehaviour{
 
 
 
-    public void MakeOptimalMove(){
-        // can't choose space if game is over
-        if (GetWinner() != PlayerOption.NONE)
-            return;
+public void MakeOptimalMove(){
+    // can't choose space if game is over
+    if (GetWinner() != PlayerOption.NONE){
+        return;
+    }
+    //------------Code
 
-        
-        //-----------GameOver----------------
-        // if there's no winner, keep playing, otherwise end the game
-        if(GetWinner() == PlayerOption.NONE){
-            EndTurn();
+    //X will always be odd turns, O is always even turns.....
+    //-------------------------
+
+    //This is the starting turn
+    //X's turn
+    if(turn == 1){
+        //Choose the middle position
+        lastPlay[0] = 1; lastPlay[1] = 1;
+        ChooseSpace(lastPlay[0],lastPlay[1]);
+    }
+    //O's turn
+    else if(turn == 2){
+        //If the X is in the center... choose a corner
+        if(cells[1,1].current == PlayerOption.X){
+            GetRandomCornerCell();//Last Play is updated in this method
         }
+        //If x is in one of the corners...choose the center
+        else if(cells[0,0].current == PlayerOption.X || cells[0,2].current == PlayerOption.X || cells[2,0].current == PlayerOption.X || cells[2,2].current == PlayerOption.X){
+            if(cells[1,1].current == PlayerOption.NONE){
+                //Sets the last play to the center cell
+                lastPlay[0] = 1; lastPlay[1] = 1;
+                ChooseSpace(lastPlay[0],lastPlay[1]);
+            }
+        }
+        //If X is in one of the sides...choose the center...or the adjacent cell... or the opposite cell
+        else if(cells[0,1].current == PlayerOption.X || cells[1,0].current == PlayerOption.X || cells[1,2].current == PlayerOption.X || cells[2,1].current == PlayerOption.X){
+            //Random Center, Adj, or Opp
+            int ran = Random.Range(1,3);//Change 3 to four after making the the get opposite cell
+            //Take the center cell
+            if(ran == 1){
+                if(cells[1,1].current == PlayerOption.NONE){
+                    //Sets the last play to the center cell
+                    lastPlay[0] = 1; lastPlay[1] = 1;
+                    ChooseSpace(lastPlay[0],lastPlay[1]);
+                }
+                else{
+                    GetRandomCell();
+                }
+            }
+            //Take an adjacent cell
+            else if(ran == 2){
+                Debug.Log("Last Play: [" + lastPlay[0] + "," + lastPlay[1] + "]");
+                GetRandomAdjacentCell(lastPlay[0], lastPlay[1]);
+            }
+            //Take an opposite cell
+            else if(ran == 3){}
+            else{}
+
+        }
+        //Fail case
         else{
-            Debug.Log("GAME OVER!");
+            GetRandomCell();
         }
     }
+}
 
 
 
@@ -667,6 +714,10 @@ private void CheckForWinningMoves(){
 
         // set the cell to the player's mark
         cells[column, row].current = currentPlayer;
+
+        //!Sharri'a - Add the chosen cells to the lastPlay
+        lastPlay[0] = column;
+        lastPlay[1] = row;
 
         // update the visual to display X or O
         board.UpdateCellVisual(column, row, currentPlayer);
