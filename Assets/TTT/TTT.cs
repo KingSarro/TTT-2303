@@ -76,9 +76,9 @@ public class TTT : MonoBehaviour{
 
 
 
-
-//Gets A Random 
-private void ChooseRandomCell(){
+//---Gets a random Cell---Calls the Choose Space Function---//
+private void GetRandomCell(){
+    Debug.Log("---Entering the Choose Random Cell function---");
     int c = -1,r = -1;
     //Gets a random cell
     do{ 
@@ -117,12 +117,519 @@ private void ChooseRandomCell(){
     while(cells[c,r].current != PlayerOption.NONE); //Check for while loop
 
     //Sets the current cell and updates the visuals
-    cells[c,r].current = currentPlayer;
-    board.UpdateCellVisual(c, r, currentPlayer);
-    //adds to the turn and updates the last played variable
-    turn++;
     lastPlay[0] = c; lastPlay[1] = r;
+    ChooseSpace(lastPlay[0], lastPlay[1]);
 }
+//---Gets a random Corner Cell---Calls the Choose Space Function---//
+private void GetRandomCornerCell(){
+    int c = -1,r = -1;
+    //Gets a random cell
+    Debug.Log("---Entering the Choose Random Corner Cell function---");
+    do{ 
+        int ran = Random.Range(1,5);
+        Debug.Log("Random Num: " + ran);
+        switch(ran){
+            case 1:
+                c = 0; r = 0;
+                break;
+            case 2:
+                c = 0; r = 2;
+                break;
+            case 3:
+                c = 2; r = 0;
+                break;
+            case 4:
+                c = 2; r = 2;
+                break;
+        }
+    }
+    while(cells[c,r].current != PlayerOption.NONE); //Check for while loop
+
+    //Sets the current cell and updates the visuals
+    lastPlay[0] = c; lastPlay[1] = r;
+    ChooseSpace(lastPlay[0], lastPlay[1]);
+}
+//---Gets a random Corner Cell---Calls the Choose Space Function---//
+private void GetRandomSideCell(){
+    int c = -1,r = -1;
+    //Gets a random cell
+    Debug.Log("---Entering the Choose Random Side Cell function---");
+    do{ 
+        int ran = Random.Range(1,5);
+        Debug.Log("Random Num: " + ran);
+        switch(ran){
+            case 1:
+                c = 0; r = 1;
+                break;
+            case 2:
+                c = 1; r = 0;
+                break;
+            case 3:
+                c = 1; r = 2;
+                break;
+            case 4:
+                c = 2; r = 1;
+                break;
+        }
+    }
+    while(cells[c,r].current != PlayerOption.NONE); //Check for while loop
+
+    //Sets the current cell and updates the visuals
+    lastPlay[0] = c; lastPlay[1] = r;
+    ChooseSpace(lastPlay[0], lastPlay[1]);
+}
+private void GetRandomAdjacentCell(int cellColum, int cellRow){
+    Debug.Log("-----Entering GetRandomAdjacentCell");
+    //first colum
+    if(cellColum == 0){
+        //first row
+        if(cellRow == 0){
+            //---In Cell [0,0]---//
+            int ran = Random.Range(1,3);
+            //cell[0,1]
+            if(ran == 1){
+                if(cells[0,1].current == PlayerOption.NONE){
+
+                    lastPlay[0] = 0; lastPlay[1] = 1;
+                }
+                else{
+                    //cell[1,0]
+                    if(cells[1,0].current == PlayerOption.NONE){
+
+                        lastPlay[0] = 1; lastPlay[1] = 0;
+                    }
+                    //Fail safe
+                    else{
+                        GetRandomCell();
+                        return;
+                    }
+                }
+            }
+            //cell[1,0]
+            else if(ran == 2){
+                if(cells[1,0].current == PlayerOption.NONE){
+
+                    lastPlay[0] = 1; lastPlay[1] = 0;
+                }
+                else{
+                    //cell[0,1]
+                    if(cells[0,1].current == PlayerOption.NONE){
+
+                        lastPlay[0] = 0; lastPlay[1] = 1;
+                    }
+                    //Fail safe
+                    else{
+                        GetRandomCell();
+                        return;
+                    }
+                }
+            }
+            //Fail safe
+            else{
+                GetRandomCell();
+                return;
+            }
+        
+        }
+        //second row
+        else if(cellRow == 1){
+            //---In Cell [0,1]---//
+            int ran = Random.Range(1,3);
+            //cell[0,0]
+            if(ran == 1){  
+                if(cells[0,0].current == PlayerOption.NONE){
+
+                    lastPlay[0] = 0; lastPlay[1] = 0;
+                }
+                else{
+                    //cell[0,2]
+                    if(cells[0,2].current == PlayerOption.NONE){
+                        lastPlay[0] = 0; lastPlay[1] = 2;
+                    }
+                    //Fail safe
+                    else{
+                        GetRandomCell();
+                        return;
+                    }
+                }
+            }
+            //cell[0,2]
+            else if(ran == 2){
+                if(cells[0,2].current == PlayerOption.NONE){
+                    lastPlay[0] = 0; lastPlay[1] = 2;
+                }
+                else{
+                    //cell[0,0]
+                    if(cells[0,0].current == PlayerOption.NONE){
+                        lastPlay[0] = 0; lastPlay[1] = 0;
+                    }
+                    //Fail safe
+                    else{
+                        GetRandomCell();
+                        return;
+                    }
+                }
+            }
+            //Fail safe
+            else{
+                GetRandomCell();
+                return;
+            }
+        
+        }
+        //third row
+        else if(cellRow == 2){
+            //---In Cell [0,2]---//
+            int ran = Random.Range(1,3);
+            //cell[0,1]
+            if(ran == 1){  
+                if(cells[0,1].current == PlayerOption.NONE){
+
+                    lastPlay[0] = 0; lastPlay[1] = 1;
+                }
+                else{
+                    //cell[1,2]
+                    if(cells[1,2].current == PlayerOption.NONE){
+
+                        lastPlay[0] = 1; lastPlay[1] = 2;
+                    }
+                    //Fail safe
+                    else{
+                        GetRandomCell();
+                        return;
+                    }
+                }
+            }
+            //cell[1,2]
+            else if(ran == 2){
+                if(cells[1,2].current == PlayerOption.NONE){
+
+                    lastPlay[0] = 1; lastPlay[1] = 2;
+                }
+                else{
+                    //cell[0,1]
+                    if(cells[0,1].current == PlayerOption.NONE){
+
+                        lastPlay[0] = 0; lastPlay[1] = 1;
+                    }
+                    //Fail safe
+                    else{
+                        GetRandomCell();
+                        return;
+                    }
+                }
+            }
+            //Fail safe
+            else{
+                GetRandomCell();
+                return;
+            }
+        
+        }
+        //Fail Safe
+        else{
+            Debug.Log("Problem in GetRandomAdjacentCell !!!");
+            Debug.Log("Problem in Colum 1 !!!");
+            Debug.Log("Row is out of range from 0-2 !!!");
+            Debug.Log("Returning a random space !!!");
+
+            GetRandomCell();
+            return;
+        }
+    
+    }
+    //second colum
+    else if(cellColum == 1){
+        //first row
+        if(cellRow == 0){
+            //---In Cell [1,0]---//
+            int ran = Random.Range(1,3);
+
+            //cell[0,0]
+            if(ran == 1){
+                if(cells[0,0].current == PlayerOption.NONE){
+
+                    lastPlay[0] = 0; lastPlay[1] = 0;
+                }
+                else{
+                    //cell[2,0]
+                    if(cells[2,0].current == PlayerOption.NONE){
+
+                        lastPlay[0] = 2; lastPlay[1] = 0;
+                    }
+                    //Fail safe
+                    else{
+                        GetRandomCell();
+                        return;
+                    }
+                }
+            }
+            //cell[2,0]
+            else if(ran == 2){
+                if(cells[2,0].current == PlayerOption.NONE){
+
+                    lastPlay[0] = 2; lastPlay[1] = 0;
+                }
+                else{
+                    //cell[0,0]
+                    if(cells[0,0].current == PlayerOption.NONE){
+
+                        lastPlay[0] = 0; lastPlay[0] = 1;
+                    }
+                    //Fail safe
+                    else{
+                        GetRandomCell();
+                        return;
+                    }
+                }
+            }
+            //Fail safe
+            else{
+                GetRandomCell();
+                return;
+            }
+        
+        }
+        //second row
+        else if(cellRow == 1){
+            //---In Cell [1,1]---//
+            ////We will do nothing for the middle cell, assuming it is taken
+            //!We will get a random corner instead, because the other player has taken the middle
+            GetRandomCornerCell();
+            return;
+        }
+        //third row
+        else if(cellRow == 2){
+            //---In Cell [1,2]---//
+            int ran = Random.Range(1,3);
+            //cell[0,2]
+            if(ran == 1){  
+                if(cells[0,2].current == PlayerOption.NONE){
+
+                    lastPlay[0] = 0; lastPlay[1] = 2;
+                }
+                else{
+                    //cell[2,2]
+                    if(cells[2,2].current == PlayerOption.NONE){
+
+                        lastPlay[0] = 2; lastPlay[1] = 2;
+                    }
+                    //Fail safe
+                    else{
+                        GetRandomCell();
+                        return;
+                    }
+                }
+            }
+            //cell[2,2]
+            else if(ran == 2){
+                if(cells[2,2].current == PlayerOption.NONE){
+
+                    lastPlay[0] = 2; lastPlay[1] = 2;
+                }
+                else{
+                    //cell[0,2]
+                    if(cells[0,2].current == PlayerOption.NONE){
+
+                        lastPlay[0] = 0; lastPlay[1] = 2;
+                    }
+                    //Fail safe
+                    else{
+                        GetRandomCell();
+                        return;
+                    }
+                }
+            }
+            //Fail safe
+            else{
+                GetRandomCell();
+                return;
+            }
+        
+        }
+        //Fail Safe
+        else{
+            Debug.Log("Problem in GetRandomAdjacentCell !!!");
+            Debug.Log("Problem in Colum 1 !!!");
+            Debug.Log("Row is out of range from 0-2 !!!");
+            Debug.Log("Returning a random space !!!");
+
+            GetRandomCell();
+            return;
+        }
+    
+    }
+    //third colum
+    else if(cellColum == 2){
+        if(cellRow == 0){
+            //---In Cell [2,0]---//
+            int ran = Random.Range(1,3);
+            //cell[2,1]
+            if(ran == 1){
+                if(cells[2,1].current == PlayerOption.NONE){
+
+                    lastPlay[2] = 0; lastPlay[1] = 1;
+                }
+                else{
+                    //cell[1,0]
+                    if(cells[1,0].current == PlayerOption.NONE){
+
+                        lastPlay[0] = 1; lastPlay[1] = 0;
+                    }
+                    //Fail safe
+                    else{
+                        GetRandomCell();
+                        return;
+                    }
+                }
+            }
+            //cell[1,0]
+            else if(ran == 2){
+                if(cells[1,0].current == PlayerOption.NONE){
+
+                    lastPlay[0] = 1; lastPlay[1] = 0;
+                }
+                else{
+                    //cell[2,1]
+                    if(cells[2,1].current == PlayerOption.NONE){
+
+                        lastPlay[0] = 2; lastPlay[1] = 1;
+                    }
+                    //Fail safe
+                    else{
+                        GetRandomCell();
+                        return;
+                    }
+                }
+            }
+            //Fail safe
+            else{
+                GetRandomCell();
+                return;
+            }
+        
+        }
+        //second row
+        else if(cellRow == 1){
+            //---In Cell [2,1]---//
+            int ran = Random.Range(1,3);
+            //cell[2,0]
+            if(ran == 1){  
+                if(cells[2,0].current == PlayerOption.NONE){
+
+                    lastPlay[0] = 2; lastPlay[1] = 0;
+                }
+                else{
+                    //cell[2,2]
+                    if(cells[2,2].current == PlayerOption.NONE){
+                        lastPlay[0] = 2; lastPlay[1] = 2;
+                    }
+                    //Fail safe
+                    else{
+                        GetRandomCell();
+                        return;
+                    }
+                }
+            }
+            //cell[2,2]
+            else if(ran == 2){
+                if(cells[2,2].current == PlayerOption.NONE){
+                    lastPlay[0] = 2; lastPlay[1] = 2;
+                }
+                else{
+                    //cell[2,0]
+                    if(cells[2,0].current == PlayerOption.NONE){
+                        lastPlay[0] = 2; lastPlay[1] = 0;
+                    }
+                    //Fail safe
+                    else{
+                        GetRandomCell();
+                        return;
+                    }
+                }
+            }
+            //Fail safe
+            else{
+                GetRandomCell();
+                return;
+            }
+        
+        }
+        //third row
+        else if(cellRow == 2){
+            //---In Cell [2,2]---//
+            int ran = Random.Range(1,3);
+            //cell[2,1]
+            if(ran == 1){  
+                if(cells[2,1].current == PlayerOption.NONE){
+
+                    lastPlay[0] = 2; lastPlay[1] = 1;
+                }
+                else{
+                    //cell[1,2]
+                    if(cells[1,2].current == PlayerOption.NONE){
+
+                        lastPlay[0] = 1; lastPlay[1] = 2;
+                    }
+                    //Fail safe
+                    else{
+                        GetRandomCell();
+                        return;
+                    }
+                }
+            }
+            //cell[1,2]
+            else if(ran == 2){
+                if(cells[1,2].current == PlayerOption.NONE){
+
+                    lastPlay[0] = 1; lastPlay[1] = 2;
+                }
+                else{
+                    //cell[2,1]
+                    if(cells[2,1].current == PlayerOption.NONE){
+
+                        lastPlay[0] = 2; lastPlay[1] = 1;
+                    }
+                    //Fail safe
+                    else{
+                        GetRandomCell();
+                        return;
+                    }
+                }
+            }
+            //Fail safe
+            else{
+                GetRandomCell();
+                return;
+            }
+        
+        }
+        //Fail Safe
+        else{
+            Debug.Log("Problem in GetRandomAdjacentCell !!!");
+            Debug.Log("Problem in Colum 1 !!!");
+            Debug.Log("Row is out of range from 0-2 !!!");
+            Debug.Log("Returning a random space !!!");
+
+            GetRandomCell();
+            return;
+        }
+    
+    }
+    //Fail Safe
+    else{
+        Debug.Log("Problem in GetRandomAdjacentCell !!!");
+        Debug.Log("Colum is out of range from 0-2 !!!");
+        Debug.Log("Returning a random space !!!");
+
+        GetRandomCell();
+        return;
+    }
+
+    ChooseSpace(lastPlay[0],lastPlay[1]);
+}
+
+
 
 //Checks if a winning move is available
 //TODO: probably will need to make this return a value (most likely a bool)
@@ -160,8 +667,6 @@ private void CheckForWinningMoves(){
 
         // set the cell to the player's mark
         cells[column, row].current = currentPlayer;
-        ////turn++;
-        ////lastPlay[0] = column; lastPlay[1] = row;
 
         // update the visual to display X or O
         board.UpdateCellVisual(column, row, currentPlayer);
@@ -182,6 +687,9 @@ private void CheckForWinningMoves(){
         currentPlayer += 1;
         if ((int)currentPlayer > 2)
             currentPlayer = PlayerOption.X;
+
+            turn++;
+            Debug.Log("Turn: " + turn);
     }
 
     public PlayerOption GetWinner()
