@@ -92,7 +92,7 @@ public void MakeOptimalMove(){
         //If X is in one of the sides...choose the center...or the adjacent cell... or the opposite cell
         else if(cells[0,1].current == PlayerOption.X || cells[1,0].current == PlayerOption.X || cells[1,2].current == PlayerOption.X || cells[2,1].current == PlayerOption.X){
             //Random Center, Adj, or Opp
-            int ran = Random.Range(1,3);//Change 3 to four after making the the get opposite cell
+            int ran = Random.Range(1,4);//!Change 3 to four after making the the get opposite cell
             //Take the center cell
             if(ran == 1){
                 if(cells[1,1].current == PlayerOption.NONE){
@@ -110,8 +110,12 @@ public void MakeOptimalMove(){
                 GetRandomAdjacentCell(lastPlay[0], lastPlay[1]);
             }
             //Take an opposite cell
-            else if(ran == 3){}
-            else{}
+            else if(ran == 3){
+                GetOppositeSideCell(lastPlay[0], lastPlay[1]);
+            }
+            else{
+                GetRandomCell();
+            }
 
         }
         //Fail case
@@ -743,6 +747,7 @@ private void GetRandomOppositeCornerCell(int cellColumn, int cellRow, bool getDi
 
     //Random horizontal or vertical side side
     if(getDiagonal == false){
+        int ran = Random.Range(1,3);
         // 1:[0,2][2,0]  2:[0,0][2,2]  3:[0,0][2,2]  4:[0,2][2,0]
         if(cellColumn == 0){
             if(cellRow == 0){
